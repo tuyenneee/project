@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <Folder Include="Pages\Category\" />
-    <Folder Include="Pages\Order\" />
     <Folder Include="Pages\Supplier\" />
     <Folder Include="Pages\Product\" />
     <Folder Include="wwwroot\images\" />
@@ -32,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.100.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
       <PrivateAssets>all</PrivateAssets>
