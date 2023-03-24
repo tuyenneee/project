@@ -6,12 +6,15 @@
     var cart = VaSession.Get<Cart>(Context.Session, "Cart") ?? new Cart();
     bool isLogged = false;
     bool isAdmin = false;
+    bool isEmployee = false;
     if (account != null)
     {
         isLogged = true;
         if (account.Type == 1)
         {
             isAdmin = true;
+        }else if (account.Type == 2){
+            isEmployee = true;
         }
     }
 }
@@ -49,7 +52,12 @@
 
                         @if (isLogged)
                         {
-                            if (isAdmin)
+                            if (isEmployee)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Order/Index">Order</a>
+                                </li>
+                            }else if (isAdmin)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-white" asp-area="" asp-page="/Category/Index">Categories</a>
@@ -66,9 +74,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-white" asp-area="" asp-page="/Account/Index">Account</a>
                                 </li>
-                            }
-                            else
-                            {
+                            }else {
                                 <li class="nav-item">
                                     <a class="nav-link text-white" asp-area="" asp-page="/Profile/Index">Profile</a>
                                 </li>
@@ -87,7 +93,7 @@
                     </ul>
                 </div>
                 <ul class="navbar-nav">
-                    @if (!isAdmin)
+                    @if (!isAdmin && !isEmployee)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-white" asp-page="/Cart/Index">Cart (<span id="qtyInCart">@cart.Count</span>)</a>
