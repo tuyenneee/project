@@ -1,0 +1,57 @@
+@page
+@model SignalRAssignment.Pages_Product.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Product</h4>
+    <hr />
+    <table class="table table-striped" style="width: 45%">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product.ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product.QuantityPerUnit)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product.UnitPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product.ProductImage)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.Product.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Product.QuantityPerUnit)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Product.UnitPrice)
+                </td>
+                <td>
+                    <img src="@Html.DisplayFor(model => model.Product.ProductImage)" class="card-img-top" alt="@Html.DisplayFor(model => model.Product.ProductImage)">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form method="post">
+        <input type="hidden" asp-for="Product.ProductId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+</div>

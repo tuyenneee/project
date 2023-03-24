@@ -1,0 +1,32 @@
+@page
+@model SignalRAssignment.Pages_Account.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details Account @Model.Account.FullName</h1>
+
+<div style ="width: 50%; margin: auto">
+    <hr />
+    <table class="table table-striped">
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Account.UserName)</td>
+            <td>@Html.DisplayFor(model => model.Account.UserName)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Account.Password)</td>
+            <td>@Html.DisplayFor(model => model.Account.Password)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Account.FullName)</td>
+            <td>@Html.DisplayFor(model => model.Account.FullName)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Account.Type)</td>
+            <td>@Html.DisplayFor(model => model.Account.Type)</td>
+        </tr>
+    </table>
+    <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@Model.Account?.AccountId">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

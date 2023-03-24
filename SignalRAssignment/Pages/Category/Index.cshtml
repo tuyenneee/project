@@ -1,0 +1,64 @@
+@page
+@model SignalRAssignment.Pages_Category.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+@{
+    var pagingmodel = new Helpers.PagingModel
+            {
+                currentpage = Model.currentPage,
+                countpages = Model.countPages,
+                generateUrl = (int? p) => Url.Page("/Category/Index", new { p = p })
+            };
+}
+<h1 style="text-align: center">Categories</h1>
+@using (Html.BeginForm("Index", "Home", FormMethod.Get, new { @class = "d-flex align-items-center justify-content-center" }))
+{
+    <div class="d-flex align-items-center w-50">
+        <input asp-for="@Model.SearchString" class="form-control me-2" placeholder="Search" id="search" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+}
+<p>
+    <a class="btn btn-primary" asp-page="Create">Create new category</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Category[0].CategoryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category[0].CategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category[0].Description)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Category)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    <p class="line-clamp-3">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </p>
+                </td>
+                <td class="table-action">
+                    @await Html.PartialAsync("_TableAction", new ViewDataDictionary(ViewData) { {"id", @item.CategoryId}})
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<partial style="margin-left: 38%" name="_pagingXTL" model="@pagingmodel" />

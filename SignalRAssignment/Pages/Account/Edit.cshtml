@@ -1,0 +1,45 @@
+@page
+@model SignalRAssignment.Pages_Account.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1 style="text-align: center">Edit Account</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4" style="margin-left: 35%">
+        <form method="post" style="margin-left">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Account.AccountId" />
+            <div class="form-group">
+                <label asp-for="Account.UserName" class="control-label"></label>
+                <input asp-for="Account.UserName" class="form-control" />
+                <span asp-validation-for="Account.UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Account.Password" class="control-label"></label>
+                <input asp-for="Account.Password" class="form-control" />
+                <span asp-validation-for="Account.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Account.FullName" class="control-label"></label>
+                <input asp-for="Account.FullName" class="form-control" />
+                <span asp-validation-for="Account.FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Account.Type" class="control-label"></label>
+                <input asp-for="Account.Type" class="form-control" />
+                <span asp-validation-for="Account.Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" /> | 
+                <a asp-page="./Index">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

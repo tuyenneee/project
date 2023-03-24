@@ -1,0 +1,93 @@
+@page
+@model SignalRAssignment.Purchase.OrderDetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Order Details</h1>
+
+<div>
+    <h4>Order</h4>
+    <hr />
+    <table class="table table-striped" style="width: 45%">
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Order.OrderDate):</td>
+            <td>@Html.DisplayFor(model => model.Order.OrderDate)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Order.ShippedDate):</td>
+            <td>@Html.DisplayFor(model => model.Order.ShippedDate)</td>
+        </tr>
+        <tr>
+            <td style ="font-weight: bold">@Html.DisplayNameFor(model => model.Order.Freight):</td>
+            <td>@Html.DisplayFor(model => model.Order.Freight)</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Order.ShipAddress):</td>
+            <td>@Html.DisplayFor(model => model.Order.ShipAddress)</td>
+        </tr>
+    </table>
+    <h4>Order Details</h4>
+    <hr />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Unit Price
+                </th>
+                <th>
+                    Image
+                </th>
+                <th>
+                    Total
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderDetail)
+            {
+                <tr>
+                    <td style="padding-top: 45px">
+                        @Html.DisplayFor(modelItem => item.Product.ProductName)
+                    </td>
+                    <td style="padding-top: 45px">
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td style="padding-top: 45px">
+                        @Html.DisplayFor(modelItem => item.UnitPrice)
+                    </td>
+                    <td>
+                        <img width="100" height="100" src="@Html.DisplayFor(modelItem => item.Product.ProductImage)" alt="">
+                    </td>
+                    <td style="padding-top: 45px">
+                        @CaculateTotal(item.Quantity,item.UnitPrice)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="text-end">
+        <h5>Total: @(Math.Round(Total, 2))</h5>
+        <h5>Total with freight: @(Math.Round(Total + Model.Order.Freight, 2))</h5>
+    </div>
+</div>
+<div>
+    <a class="btn btn-primary" asp-page="./Index" style="margin-bottom: 10px">Back to List</a>
+</div>
+
+@functions {
+    public Double Total { get; set; }
+    public double CaculateTotal(int quantity, double unitPrice)
+    {
+        Total += unitPrice * quantity;
+        return unitPrice * quantity;
+    }
+
+}

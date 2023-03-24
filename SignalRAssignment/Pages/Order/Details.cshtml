@@ -1,0 +1,87 @@
+@page
+@model SignalRAssignment.Pages_Order.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1 style="text-align:center">Order Details</h1>
+
+<div>
+    <h4>Order</h4>
+    <hr />
+    <table class="table table-striped" style="width: 45%">
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Order.OrderDate)</td>
+            <td>@Html.DisplayFor(model => model.Order.OrderDate)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Order.ShippedDate)</td>
+            <td>@Html.DisplayFor(model => model.Order.ShippedDate)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Order.Freight)</td>
+            <td>@Html.DisplayFor(model => model.Order.Freight)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Order.ShipAddress)</td>
+            <td>@Html.DisplayFor(model => model.Order.ShipAddress)</td>
+        </tr>
+    </table>
+    <h4>Order Details</h4>
+    <hr />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Product name
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Unit price
+                </th>
+                <th>
+                    Total
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderDetail)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitPrice)
+                    </td>
+                    <td>
+                        @CaculateTotal(item.Quantity,item.UnitPrice)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="text-end">
+        <h5>Total: @(Math.Round(Total, 2))</h5>
+        <h5>Total with freight: @(Math.Round(Total + Model.Order.Freight, 2))</h5>
+    </div>
+</div>
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@functions {
+    public Double Total { get; set; }
+    public double CaculateTotal(int quantity, double unitPrice)
+    {
+        Total += unitPrice * quantity;
+        return unitPrice * quantity;
+    }
+
+}

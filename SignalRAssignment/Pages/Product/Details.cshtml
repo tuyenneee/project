@@ -1,0 +1,39 @@
+@page
+@model SignalRAssignment.Pages_Product.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1 style="text-align: center">Details of @Html.DisplayFor(model => model.Product.ProductName)</h1>
+
+<div style="width: 50%; margin: auto">
+    <table class="table table-striped">
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Product.ProductImage)</td>
+            <td><img src="@Model.Product.ProductImage" class="card-img-top" alt="@Model.Product.ProductImage"></td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Product.ProductName)</td>
+            <td>@Html.DisplayFor(model => model.Product.ProductName)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Product.QuantityPerUnit)</td>
+            <td>@Html.DisplayFor(model => model.Product.QuantityPerUnit)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Product.UnitPrice)</td>
+            <td>@Html.DisplayFor(model => model.Product.UnitPrice)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Product.Category)</td>
+            <td>@Html.DisplayFor(model => model.Product.Category.CategoryName)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Product.Supplier)</td>
+            <td>@Html.DisplayFor(model => model.Product.Supplier.CompanyName)</td>
+        </tr>
+    </table>
+    <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@Model.Product?.ProductId">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

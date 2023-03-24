@@ -1,0 +1,38 @@
+@page
+@model SignalRAssignment.Pages_Account.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Account</h4>
+    <hr />
+    <table class="table table-striped" style="width: 45%">
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Account.UserName)</td>
+            <td>@Html.DisplayFor(model => model.Account.UserName)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Account.Password)</td>
+            <td>@Html.DisplayFor(model => model.Account.Password)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Account.FullName)</td>
+            <td>@Html.DisplayFor(model => model.Account.FullName)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Account.Type)</td>
+            <td>@Html.DisplayFor(model => model.Account.Type)</td>
+        </tr>
+    </table>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Account.AccountId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

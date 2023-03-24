@@ -1,0 +1,8 @@
+﻿@{
+    // get data from partial view
+    int id = ViewBag.id;
+}
+
+<a asp-page="./Edit" asp-route-id="@id" class="btn btn-info">Edit</a> |
+<a asp-page="./Details" asp-route-id="@id" class="btn btn-primary">Details</a> |
+<a asp-page="./Delete" asp-route-id="@id" class="btn btn-danger">Delete</a>

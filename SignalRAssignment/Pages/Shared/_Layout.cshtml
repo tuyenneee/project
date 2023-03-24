@@ -1,0 +1,140 @@
+﻿@using SignalRAssignment.Common;
+@using SignalRAssignment.Models;
+@using Microsoft.AspNetCore.Http;
+@{
+    var account = VaSession.Get<Account>(Context.Session, "Account");
+    var cart = VaSession.Get<Cart>(Context.Session, "Cart") ?? new Cart();
+    bool isLogged = false;
+    bool isAdmin = false;
+    if (account != null)
+    {
+        isLogged = true;
+        if (account.Type == 1)
+        {
+            isAdmin = true;
+        }
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SignalRAssignment</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SignalRAssignment.styles.css" asp-append-version="true" />
+
+    <style>
+        body {
+            background-image: url('https://hospitalityinsights.ehl.edu/hubfs/Blog-EHL-Insights/Blog-Header-EHL-Insights/AdobeStock_264542845.jpeg');
+            background-size: contain;
+            background-size: auto;
+            /*background-position: center;*/
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3 navbar-dark"
+             style="background: linear-gradient(to right, #ffffff, #ff565a, #c36e37, #f4e2ee);">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">Food Store</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+
+                        @if (isLogged)
+                        {
+                            if (isAdmin)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Category/Index">Categories</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Order/Index">Order</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Product/Index">Product</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Supplier/Index">Supplier</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Account/Index">Account</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Profile/Index">Profile</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Purchase/Index">Purchase</a>
+                                </li>
+                            }
+                        }
+                        @*else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-page="/Index">Stores</a>
+                            </li>
+                        }*@
+
+                    </ul>
+                </div>
+                <ul class="navbar-nav">
+                    @if (!isAdmin)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-page="/Cart/Index">Cart (<span id="qtyInCart">@cart.Count</span>)</a>
+                            </li>
+                        }
+                    @if (!isLogged)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-page="/Login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-page="/Register">Register</a>
+                        </li>
+                    }
+                    else
+                    {
+                        
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-page="">(Hi @account.UserName)</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-page="/Logout">Logout</a>
+                        </li>
+                    }
+                </ul>
+
+            </div>
+
+        </nav>
+    </header>
+    <div class="container" style="background-color: #f1f1f1; min-height: 400px;">
+        <main role="main" class="">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer text-muted"
+            style="background: linear-gradient(to right, #ffffff, #ff565a, #c36e37, #f4e2ee);">
+        <div class="container text-center text-white fw-bold">Food Managerment</div>
+    </footer>
+
+    <script src="~/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/signalr/dist/browser/signalr.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

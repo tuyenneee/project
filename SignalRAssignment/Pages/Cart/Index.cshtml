@@ -1,0 +1,127 @@
+﻿@page
+@model SignalRAssignment.Pages.Cart.IndexModel
+@using SignalRAssignment.Common;
+@using SignalRAssignment.Models;
+@using Microsoft.AspNetCore.Http;
+@{
+    ViewData["Title"] = "Cart";
+    var cart = ViewBag.Cart;
+    var count = ViewBag.count;
+    var classNameTable = (int)count > 0 ? "col-md-8" : "col-md-12";
+    var isLogged = (bool)ViewBag.IsLogged;
+    var itemList = (List<CartItem>)ViewBag.listItem;
+
+
+}
+
+<div class="row">
+    <div class="@classNameTable">
+        <div class="text-center">
+            <h1 class="display-4">Cart</h1>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Product
+                    </th>
+                    <th>
+                        Quantity
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                    <th>
+                        Total
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in itemList)
+                {
+                    <tr>
+                        <td>
+                            @item.Product.ProductName
+                        </td>
+                        <td>
+                            @item.Quantity
+                        </td>
+                        <td>
+                            @item.Product.UnitPrice
+                        </td>
+                        <td>
+                            @item.Total
+                        </td>
+                        <td>
+                            <a asp-route-id="@item.Product.ProductId" asp-page-handler="increment" class="btn btn-success">+</a>
+                            <a asp-route-id="@item.Product.ProductId" asp-page-handler="decrement" class="btn btn-warning">-</a>
+                            <a asp-route-id="@item.Product.ProductId" asp-page-handler="delete" class="btn btn-danger">Remove</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="text-right d-flex align-items-center justify-content-between">
+            <div>
+                <h3>Total: @cart.Total</h3>
+                <a asp-page="/Index" class="btn btn-primary">Continue Shopping</a>
+                <a asp-page-handler="clear" class="btn btn-danger text-left">Clear Cart</a>
+            </div>
+        </div>
+    </div>
+    @if (count > 0)
+    {
+        <div class="col-md-4">
+            <div class="text-center">
+                <h1 class="display-4">Checkout</h1>
+            </div>
+            @if (isLogged)
+            {
+                <form method="post">
+                    <div class="form-group">
+                        <label asp-for="Order.RequiredDate"></label>
+                        <input asp-for="Order.RequiredDate" class="form-control" type="datetime-local" />
+                        <span asp-validation-for="Order.RequiredDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Order.ShippedDate"></label>
+                        <input asp-for="Order.ShippedDate" class="form-control" type="datetime-local" />
+                        <span asp-validation-for="Order.ShippedDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Order.ShipAddress"></label>
+                        <input asp-for="Order.ShipAddress" class="form-control" />
+                        <span asp-validation-for="Order.ShipAddress" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Order.Freight"></label>
+                        <input asp-for="Order.Freight" class="form-control" />
+                        <span asp-validation-for="Order.Freight" class="text-danger"></span>
+                    </div>
+                  
+
+                    <div class="form-group my-3">
+                        <button type="submit" class="btn btn-primary">Checkout</button>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <div class="text-center">
+                    <h3>Please login to checkout</h3>
+                    <a asp-page="/Login" class="btn btn-primary" asp-route-returnUrl="@Url.Page("/Cart/Index")">Login</a>
+                </div>
+            }
+        </div>
+    }
+</div>
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
