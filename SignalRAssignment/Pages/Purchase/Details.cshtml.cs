@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,13 +13,14 @@ namespace SignalRAssignment.Purchase
     public class OrderDetailsModel : PageModel
     {
         private readonly PizzaStoreContext _context;
-
+        public string selectedOption = string.Empty;
         public OrderDetailsModel(PizzaStoreContext context)
         {
             _context = context;
         }
-
-      public Order Order { get; set; } = default!; 
+        [BindProperty]
+        public string Id { get; set; }
+        public Order Order { get; set; } = default!; 
 
       public List<OrderDetail> OrderDetail { get; set; } = default!;
 
@@ -35,7 +36,7 @@ namespace SignalRAssignment.Purchase
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 Order = order;
                 OrderDetail = await _context.OrderDetails
@@ -45,5 +46,6 @@ namespace SignalRAssignment.Purchase
             }
             return Page();
         }
+        
     }
 }

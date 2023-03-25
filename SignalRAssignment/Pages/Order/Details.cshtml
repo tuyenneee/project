@@ -3,6 +3,8 @@
 
 @{
     ViewData["Title"] = "Details";
+    int temp = Model.Order.Status;
+
 }
 
 <h1 style="text-align:center">Order Details</h1>
@@ -27,11 +29,41 @@
             <td>@Html.DisplayNameFor(model => model.Order.ShipAddress)</td>
             <td>@Html.DisplayFor(model => model.Order.ShipAddress)</td>
         </tr>
+        <tr>
+            <td> Status </td>
+            <td>
+                <form class="custom-select" method="post" asp-page-handler="OnPost">
+                        <input type="text" name="id" id="id" hidden value="@Html.DisplayFor(model => model.Order.OrderId)">
+                        <select asp-for="selectedOption" asp-action="HandleSelectOption">
+                            @if (temp == 0)
+                            {
+                                <option selected value="0">Pending </option>
+                                <option value="1">Processing </option>
+                                <option value="2">Done </option>
+                            }
+                            else if (temp == 1)
+                            {
+                                <option value="0">Pending </option>
+                                <option selected value="1">Processing </option>
+                                <option value="2">Done </option>
+
+                            }
+                            else
+                            {
+                                <option value="0">Pending </option>
+                                <option value="1">Processing </option>
+                                <option selected value="2">Done </option>
+                            }
+
+                        </select>
+                        <button type="submit">Change</button>
+                    </form>
+
+            </td>
+        </tr>
     </table>
     <h4>Order Details</h4>
-  
     <hr />
-    <div id="parentDiv">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -69,15 +101,6 @@
             }
         </tbody>
     </table>
-        <form asp-page="./Details">
-        <input name="hander" value="print" type="hidden"/>
-            <input name="id" value="@Model.Order.OrderId" type="hidden" />
-            <button class="btn btn-primary" type="submit">Print</button>
-    </form>
-        @*<a asp-page="./Details" asp-page-handler="print" asp-route-id="@Model.Order.OrderId" class="btn btn-primary">Print</a>*@
-    </div>
-
-     
     <div class="text-end">
         <h5>Total: @(Math.Round(Total, 2))</h5>
         <h5>Total with freight: @(Math.Round(Total + Model.Order.Freight, 2))</h5>

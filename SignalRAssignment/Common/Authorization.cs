@@ -16,7 +16,7 @@ namespace SignalRAssignment.Common
                 // get query string from url
                 var query = context.HttpContext.Request.QueryString;
                 context.Result = new RedirectToPageResult("/Login", new { returnUrl = context.HttpContext.Request.Path + query });
-                
+
             }
         }
     }

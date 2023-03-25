@@ -3,6 +3,9 @@
 
 @{
     ViewData["Title"] = "Details";
+    int temp = Model.Order.Status;
+   
+    
 }
 
 <h1>Order Details</h1>
@@ -27,6 +30,7 @@
             <td style="font-weight: bold">@Html.DisplayNameFor(model => model.Order.ShipAddress):</td>
             <td>@Html.DisplayFor(model => model.Order.ShipAddress)</td>
         </tr>
+        
     </table>
     <h4>Order Details</h4>
     <hr />

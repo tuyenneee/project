@@ -14,7 +14,7 @@ namespace SignalRAssignment.Purchase
     public class IndexModel : PageModel
     {
         private readonly PizzaStoreContext _context;
-
+        
         public IndexModel(PizzaStoreContext context)
         {
             _context = context;
@@ -33,6 +33,18 @@ namespace SignalRAssignment.Purchase
                     .ToListAsync();
             }
         }
+        public async Task<IActionResult> OnPostAsync(int id)
+        {
+            var list = _context.OrderDetails.Where(x=> x.OrderId==id).ToList();
+            foreach (var order in list)
+            {
+                _context.OrderDetails.Remove(order);
+            }
+            _context.Orders.Remove(_context.Orders.Find(id));
+            _context.SaveChanges();
+            return RedirectToPage("./Index");
+        }
+
     }
    
    

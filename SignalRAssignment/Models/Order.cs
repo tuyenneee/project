@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SignalRAssignment.Models
 {
@@ -18,10 +17,9 @@ namespace SignalRAssignment.Models
         public DateTime ShippedDate { get; set; }
         public double Freight { get; set; }
         public string ShipAddress { get; set; } = null!;
+        public int Status { get; set; }
 
         public virtual Account Account { get; set; } = null!;
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-        
-        
     }
 }

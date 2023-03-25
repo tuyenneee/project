@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SignalRAssignment.Common;
 using SignalRAssignment.Models;
-using ClosedXML.Excel;
 
 namespace SignalRAssignment.Pages_Order
 {
@@ -20,8 +19,8 @@ namespace SignalRAssignment.Pages_Order
         {
             _context = context;
         }
-
-      public Order Order { get; set; } = default!; 
+        public string selectedOption = string.Empty;
+        public Order Order { get; set; } = default!; 
 
       public List<OrderDetail> OrderDetail { get; set; } = default!;
 
@@ -44,61 +43,17 @@ namespace SignalRAssignment.Pages_Order
             }
             return Page();
         }
-        public async Task<IActionResult> OnPostAsync(int id, string hander)
-        {
-            if (hander.Equals("print"))
-            {
-                Console.WriteLine("print");
-                await savePDF(id);
-            }
 
-            var order = await _context.Orders.Include(o => o.Account).FirstOrDefaultAsync(m => m.OrderId == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                Order = order;
-                OrderDetail = await _context.OrderDetails.Where(o => o.OrderId == id).Include(o => o.Product).ToListAsync();
-            }
-            return Page();
-        }
-        public async Task savePDF(int id)
+
+        public async Task<IActionResult> OnPostAsync(string selectedOption, int id)
         {
-            int row = 8;
-             Order = await _context.Orders.Include(o => o.Account).FirstOrDefaultAsync(m => m.OrderId == id);
-            OrderDetail = await _context.OrderDetails.Where(o => o.OrderId == id).Include(o => o.Product).ToListAsync();
-            var wb = new XLWorkbook();
-            var ws = wb.Worksheets.Add("details");
-            ws.Cell("A1").Value = "ORDER";
-            ws.Cell("A2").Value = "OrderDate";
-            ws.Cell("B2").Value = Order.OrderDate;
-            ws.Cell("A3").Value = "ShippedDate";
-            ws.Cell("B3").Value = Order.ShippedDate;
-            ws.Cell("A4").Value = "Freight";
-            ws.Cell("B4").Value = Order.Freight;
-            ws.Cell("A5").Value = "ShipAddress";
-            ws.Cell("B5").Value = Order.ShipAddress;
-            ws.Cell("A6").Value = "ORDER DETAILS";
-            ws.Cell("A7").Value = "ProductName";
-            ws.Cell("B7").Value = "quantity";
-            ws.Cell("C7").Value = "unitPrice";
-            ws.Cell("D7").Value = "Total";
-            foreach (var entity in OrderDetail)
-            {
-                ws.Cell("A" +row).Value = entity.Product.ProductName;
-                ws.Cell("B" +row).Value = entity.Quantity;
-                ws.Cell("C" +row).Value = entity.UnitPrice;
-                ws.Cell("D" +row).Value = entity.Quantity * entity.UnitPrice;
-                row++;
-                Console.WriteLine(row);
-            }
-            string nameFile = "Export_" + DateTime.Now.Ticks + ".xlsx";
-            string pathFile = "d:/XuatFileExcel/" + nameFile;
-            wb.SaveAs(pathFile);
+            Console.WriteLine(selectedOption);
+            var order = await _context.Orders.Where(o => o.OrderId == id).FirstOrDefaultAsync();
+            order.Status = Int16.Parse(selectedOption);
+            _context.Orders.Update(order);
+            _context.SaveChanges();
+            return RedirectToPage("./Index");
         }
-       
+
     }
 }
-    

@@ -19,6 +19,8 @@
                 @Html.DisplayNameFor(model => model.Order[0].ShippedDate)
             </th>
             <th>
+                Status
+            </th><th>
                 Action
             </th>
         </tr>
@@ -35,10 +37,35 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ShippedDate)
-                </td>               
+                </td> 
+                <td>
+                    @if (item.Status == 0)
+                    {
+                        <p> Pending </p>
+                    }
+                    else if (item.Status == 1){
+                        <p> Processing </p>
+                    }
+                    else
+                    {
+                        <p> Done </p>
+                    }
+
+                </td> 
                 <td>
                     <a asp-page="./Details" asp-route-id="@item.OrderId" class="btn btn-info">Details</a>
+                    @if (item.Status == 0)
+                    {
+                        <form method="post" asp-page-handler="OnPost">
+                            <input type="text" name="id" id="id" hidden value="@item.OrderId">
+
+                            <button type="submit" class="btn btn-info">Cancel Order</button>
+                        </form>
+                        
+                    }
+
                 </td>
+               
             </tr>
         }
     </tbody>
